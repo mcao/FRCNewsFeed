@@ -1,0 +1,24 @@
+{
+  "name": "frcnewsfeed",
+  "version": "1.0.0",
+  "description": "FRC News Feed Grabber",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcao/FRCNewsFeed.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcao/FRCNewsFeed/issues"
+  },
+  "homepage": "https://github.com/mcao/FRCNewsFeed#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
