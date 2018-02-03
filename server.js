@@ -1,7 +1,7 @@
 const express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
-  EventEmitter = require('events');
+  { EventEmitter } = require('events');
 
 class Server extends EventEmitter {
   constructor() {
@@ -22,7 +22,7 @@ class Server extends EventEmitter {
 
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
-      super.emitEvent('chiefdelphi', req.body);
+      emitEvent('chiefdelphi', req.body);
     })
 
     app.post('/tba', function (req, res) {
@@ -82,7 +82,7 @@ class Server extends EventEmitter {
     console.log('Listeners initialized!')
 
     function emitEvent(type, content) {
-      Server.emit(type, content);
+      this.emit(type, content);
     }
   }
 }
