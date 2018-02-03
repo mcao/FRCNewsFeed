@@ -82,7 +82,7 @@ class Server extends EventEmitter {
     console.log('Listeners initialized!')
 
     function emitEvent(type, content) {
-      this.emit(type, content);
+      Server.emit(type, content);
     }
   }
 }
