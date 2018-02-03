@@ -22,7 +22,7 @@ class Server extends EventEmitter {
 
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
-      emitEvent('chiefdelphi', req.body);
+      super.emitEvent('chiefdelphi', req.body);
     })
 
     app.post('/tba', function (req, res) {
