@@ -12,6 +12,12 @@ class Server extends EventEmitter {
       extended: true
     }))
 
+    app.listen(8080, () => {
+      console.log('Server started at port 8080!')
+    })
+  }
+
+  listen() {
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
       this.emit('chiefdelphi', req.body);
@@ -70,10 +76,6 @@ class Server extends EventEmitter {
     })
 
     app.get('/', (req, res) => res.send('hello world'))
-
-    app.listen(8080, () => {
-      console.log('Server started at port 8080!')
-    })
   }
 }
 
