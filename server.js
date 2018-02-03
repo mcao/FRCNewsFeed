@@ -19,71 +19,68 @@ class Server extends EventEmitter {
   }
 
   listen() {
+    var self = this;
 
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
-      emitEvent('chiefdelphi', req.body);
+      self.emit('chiefdelphi', req.body);
     })
 
     app.post('/tba', function (req, res) {
       res.send('OK');
-      emitEvent('tba', req.body);
+      self.emit('tba', req.body);
     })
 
     app.post('/frcqa', function (req, res) {
       res.send('OK');
-      emitEvent('frcqa', req.body);
+      self.emit('frcqa', req.body);
     })
 
     app.post('/frcblog', function (req, res) {
       res.send('OK');
-      emitEvent('frcblog', req.body);
+      self.emit('frcblog', req.body);
     })
 
     // No functionality yet
     app.post('/toa', function (req, res) {
       res.send('OK');
-      emitEvent('toa', req.body);
+      self.emit('toa', req.body);
     })
 
     // Public
     app.post('/reddit', function (req, res) {
       res.send('OK');
-      emitEvent('reddit', req.body);
+      self.emit('reddit', req.body);
     })
 
     app.post('/twitch', function (req, res) {
       res.send('OK');
-      emitEvent('twitch', req.body);
+      self.emit('twitch', req.body);
     })
 
     app.post('/yt', function (req, res) {
       res.send('OK');
-      emitEvent('yt', req.body);
+      self.emit('yt', req.body);
     })
 
     app.post('/twitter', function (req, res) {
       res.send('OK');
-      emitEvent('twitter', req.body);
+      self.emit('twitter', req.body);
     })
 
     app.post('/instagram', function (req, res) {
       res.send('OK');
-      emitEvent('instagram', req.body);
+      self.emit('instagram', req.body);
     })
 
     app.post('/facebook', function (req, res) {
       res.send('OK');
-      emitEvent('facebook', req.body);
+      self.emit('facebook', req.body);
     })
 
     app.get('/', (req, res) => res.send('hello world'))
 
     console.log('Listeners initialized!')
-
-    function emitEvent(type, content) {
-      this.emit(type, content);
-    }
   }
 }
 
