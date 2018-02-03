@@ -18,64 +18,70 @@ class Server extends EventEmitter {
   }
 
   listen() {
+    console.log('Listeners initialized!')
+
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
-      this.emit('chiefdelphi', req.body);
+      this.emitEvent('chiefdelphi', req.body);
     })
 
     app.post('/tba', function (req, res) {
       res.send('OK');
-      this.emit('tba', req.body);
+      this.emitEvent('tba', req.body);
     })
 
     app.post('/frcqa', function (req, res) {
       res.send('OK');
-      this.emit('frcqa', req.body);
+      this.emitEvent('frcqa', req.body);
     })
 
     app.post('/frcblog', function (req, res) {
       res.send('OK');
-      this.emit('frcblog', req.body);
+      this.emitEvent('frcblog', req.body);
     })
 
     // No functionality yet
     app.post('/toa', function (req, res) {
       res.send('OK');
-      this.emit('toa', req.body);
+      this.emitEvent('toa', req.body);
     })
 
     // Public
     app.post('/reddit', function (req, res) {
       res.send('OK');
-      this.emit('reddit', req.body);
+      this.emitEvent('reddit', req.body);
     })
 
     app.post('/twitch', function (req, res) {
       res.send('OK');
-      this.emit('twitch', req.body);
+      this.emitEvent('twitch', req.body);
     })
 
     app.post('/yt', function (req, res) {
       res.send('OK');
-      this.emit('yt', req.body);
+      this.emitEvent('yt', req.body);
     })
 
     app.post('/twitter', function (req, res) {
       res.send('OK');
-      this.emit('twitter', req.body);
+      this.emitEvent('twitter', req.body);
     })
 
     app.post('/instagram', function (req, res) {
       res.send('OK');
-      this.emit('instagram', req.body);
+      this.emitEvent('instagram', req.body);
     })
 
     app.post('/facebook', function (req, res) {
       res.send('OK');
-      this.emit('facebook', req.body);
+      this.emitEvent('facebook', req.body);
     })
 
     app.get('/', (req, res) => res.send('hello world'))
+  }
+
+  emitEvent(type, content) {
+    this.emit(type, content);
   }
 }
 
