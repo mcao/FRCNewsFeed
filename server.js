@@ -1,56 +1,80 @@
-var express = require('express')
-var app = express()
-var bodyParser = require('body-parser')
+const express = require('express'),
+  app = express(),
+  bodyParser = require('body-parser'),
+  EventEmitter = require('events');
 
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
+class Server extends EventEmitter {
+  constructor() {
+    super();
 
-// FRC Q and A, TOA, /r/FRC, Twitch, YouTube, FRC Blog
+    app.use(bodyParser.json()) // for parsing application/json
+    app.use(bodyParser.urlencoded({
+      extended: true
+    }))
 
-app.post('/chiefdelphi', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    app.post('/chiefdelphi', function (req, res) {
+      res.send('OK');
+      this.emit('chiefdelphi', req.body);
+    })
 
-app.post('/tba', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    app.post('/tba', function (req, res) {
+      res.send('OK');
+      this.emit('tba', req.body);
+    })
 
-app.post('/frcqa', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    app.post('/frcqa', function (req, res) {
+      res.send('OK');
+      this.emit('frcqa', req.body);
+    })
 
-app.post('/frcblog', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    app.post('/frcblog', function (req, res) {
+      res.send('OK');
+      this.emit('frcblog', req.body);
+    })
 
-// No functionality yet
-app.post('/toa', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    // No functionality yet
+    app.post('/toa', function (req, res) {
+      res.send('OK');
+      this.emit('toa', req.body);
+    })
 
-app.post('/reddit', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    // Public
+    app.post('/reddit', function (req, res) {
+      res.send('OK');
+      this.emit('reddit', req.body);
+    })
 
-app.post('/twitch', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    app.post('/twitch', function (req, res) {
+      res.send('OK');
+      this.emit('twitch', req.body);
+    })
 
-// No functionality yet
-app.post('/yt', function (req, res) {
-  console.log(req.body);
-  res.send('ok');
-})
+    app.post('/yt', function (req, res) {
+      res.send('OK');
+      this.emit('yt', req.body);
+    })
 
-app.get('/', (req, res) => res.send('hello world'))
+    app.post('/twitter', function (req, res) {
+      res.send('OK');
+      this.emit('twitter', req.body);
+    })
 
-app.listen(8080)
+    app.post('/instagram', function (req, res) {
+      res.send('OK');
+      this.emit('instagram', req.body);
+    })
+
+    app.post('/facebook', function (req, res) {
+      res.send('OK');
+      this.emit('facebook', req.body);
+    })
+
+    app.get('/', (req, res) => res.send('hello world'))
+
+    app.listen(8080, () => {
+      console.log('Server started at port 8080!')
+    })
+  }
+}
+
+module.exports = Server;
