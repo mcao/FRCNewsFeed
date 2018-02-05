@@ -33,7 +33,8 @@ class Server extends EventEmitter {
         token = req.headers["x-tba-checksum"],
         tba = true
       }
-      console.log(`Token ${token} | Request ${req.params.endpoint}`)
+      console.log(`Request ${req.params.endpoint}`)
+      console.log(`Hash Recieved: ${token}`)
       self.auth(req.body, token, tba).then(authorized => {
         if (authorized) {
           self.emit(req.params.endpoint, req.body);
@@ -52,8 +53,8 @@ class Server extends EventEmitter {
   auth(payload, token, isTba) {
     return new Promise(resolve => {
       if (isTba) {
-        shasum.update(require('./config.json').tbatoken)
-          .update(String(payload))
+        shasum.update(require('./config.json').secret)
+        shasum.update(String(payload))
         console.log(`TBA: Calculated Hash is ${shasum.digest('hex')}`)
       }
       resolve(true);
