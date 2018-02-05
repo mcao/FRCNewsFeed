@@ -11,10 +11,21 @@ class Server extends EventEmitter {
   constructor() {
     super();
 
-    // app.use(bodyParser.json()) // for parsing application/json
+    app.use(bodyParser.json()) // for parsing application/json
     app.use(bodyParser.urlencoded({
       extended: true
     }))
+    app.use(function (req, res, next) {
+      var data = '';
+      req.setEncoding('utf8');
+      req.on('data', function (chunk) {
+        data += chunk;
+      });
+      req.on('end', function () {
+        req.rawBody = data;
+        next();
+      });
+    });
 
     app.listen(8080, () => {
       console.log('Server started at port 8080!')
@@ -35,10 +46,10 @@ class Server extends EventEmitter {
       }
       console.log(`Request ${req.params.endpoint}`)
       console.log(`Hash Recieved: ${token}`)
-      console.log(req.body)
-      self.auth(req.body, token, tba).then(authorized => {
+      console.log(req.rawBody)
+      self.auth(req.rawBody, token, tba).then(authorized => {
         if (authorized) {
-          self.emit(req.params.endpoint, JSON.parse(req.body));
+          self.emit(req.params.endpoint, req.body);
           res.send('OK')
         } else {
           res.sendStatus(401);
