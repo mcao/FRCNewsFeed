@@ -1,5 +1,5 @@
 const express = require('express'),
-  app = express(),
+  app = express.createServer(),
   bodyParser = require('body-parser'),
   { EventEmitter } = require('events')
 var token = "",
@@ -16,7 +16,6 @@ class Server extends EventEmitter {
       extended: true
     }))
     app.use(function (req, res, next) {
-      console.log('parsing raw')
       var data = '';
       req.setEncoding('utf8');
       req.on('data', function (chunk) {
