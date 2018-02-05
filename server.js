@@ -1,7 +1,8 @@
 const express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
-  { EventEmitter } = require('events');
+  { EventEmitter } = require('events')
+var token = "";
 
 class Server extends EventEmitter {
   constructor() {
@@ -20,6 +21,21 @@ class Server extends EventEmitter {
 
   listen() {
     var self = this;
+
+    app.post('/api/:endpoint', function(req, res) {
+      if (req.body.authorization)
+        token = req.body.authorization
+      else if (req.headers["X-TBA-Checksum"])
+        token = req.headers["X-TBA-Checksum"]
+      console.log(`Token ${token}`)
+      self.auth(token).then(authorized => {
+        if (authorized) {
+          self.emit(req.params.endpoint, req.body);
+        } else {
+          res.sendStatus(401);
+        }
+      })
+    })
 
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
@@ -41,19 +57,13 @@ class Server extends EventEmitter {
       self.emit('frcblog', req.body);
     })
 
-    // No functionality yet
-    app.post('/toa', function (req, res) {
-      res.send('OK');
-      self.emit('toa', req.body);
-    })
-
     // Public
-    app.post('/reddit', function (req, res) {
+    app.post('/api/reddit', function (req, res) {
       res.send('OK');
       self.emit('reddit', req.body);
     })
 
-    app.post('/twitch', function (req, res) {
+    app.post('/api/twitch', function (req, res) {
       res.send('OK');
       self.emit('twitch', req.body);
     })
@@ -81,6 +91,13 @@ class Server extends EventEmitter {
     app.get('/', (req, res) => res.send('hello world'))
 
     console.log('Listeners initialized!')
+  }
+
+  auth(token) {
+    return new Promise(resolve => {
+      if (token)
+        resolve(true);
+    })
   }
 }
 
