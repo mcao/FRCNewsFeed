@@ -11,8 +11,6 @@ class Server extends EventEmitter {
   constructor() {
     super();
 
-    //app.use(bodyParser.json());
-    //app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json({
       verify: function (req, res, buf, encoding) {
         req.rawBody = buf;
@@ -42,9 +40,8 @@ class Server extends EventEmitter {
         token = req.headers["x-tba-checksum"],
           tba = true
       }
-      console.log(`Request ${req.params.endpoint}`)
-      console.log(`Hash Recieved: ${token}`)
-      console.log(req.rawBody)
+      console.log(`Request Type: ${req.params.endpoint}`)
+      console.log(`Token: ${token}`)
       self.auth(req.rawBody, token, tba).then(authorized => {
         if (authorized) {
           self.emit(req.params.endpoint, req.body);
@@ -67,8 +64,13 @@ class Server extends EventEmitter {
         shasum.update(payload)
         console.log(`TBA: Calculated Hash is ${shasum.digest('hex')}`)
         shasum = crypto.createHash('sha1');
+        if (token == shasum) resolve(true);
+        else resolve(false);
+      } else if (token == require('./config.json').admintoken) {
+        resolve(true);
+      } else {
+        resolve(false);
       }
-      resolve(true);
     })
   }
 }
