@@ -11,21 +11,9 @@ class Server extends EventEmitter {
   constructor() {
     super();
 
-    app.use(bodyParser.urlencoded({
-      extended: true
-    }))
-    app.use(function (req, res, next) {
-      var data = '';
-      req.setEncoding('utf8');
-      req.on('data', function (chunk) {
-        data += chunk;
-      });
-      req.on('end', function () {
-        req.rawBody = data;
-        next();
-      });
-    });
-    app.use(bodyParser.json()) // for parsing application/json
+    app.use(bodyParser.text({ type: '*/*' }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
 
     app.listen(8080, () => {
       console.log('Server started at port 8080!')
