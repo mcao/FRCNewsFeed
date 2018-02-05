@@ -21,11 +21,21 @@ news.on('tba', (data) => {
 });
 
 news.on('frcblog', (data) => {
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, "\t") + "```")
+  var news = new Discord.RichEmbed()
+    .setAuthor('New FRC Blog Post!', null, data.link)
+    .setDescription(`[**${data.title}**](${data.link}) by ${data.author}`)
+    .setColor('#0000FF')
+    .setDate(new Date(data.date))
+  bot.channels.get('370684908462538752').send({ embed: news })
 });
 
 news.on('frcqa', (data) => {
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, "\t") + "```")
+  var news = new Discord.RichEmbed()
+    .setAuthor('New FRC Q&A Answer!', null, data.link)
+    .setDescription(`[**${data.title}**](${data.link})`)
+    .setColor('#0000FF')
+    .setDate(new Date(data.date))
+  bot.channels.get('370684908462538752').send({ embed: news })
 });
 
 news.on('twitch', (data) => {
