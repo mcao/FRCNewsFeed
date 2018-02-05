@@ -35,6 +35,7 @@ class Server extends EventEmitter {
       }
       console.log(`Request ${req.params.endpoint}`)
       console.log(`Hash Recieved: ${token}`)
+      console.log(req.body)
       self.auth(req.body, token, tba).then(authorized => {
         if (authorized) {
           self.emit(req.params.endpoint, JSON.parse(req.body));
