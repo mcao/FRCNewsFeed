@@ -1,5 +1,5 @@
 const express = require('express'),
-  app = express.createServer(),
+  app = express(),
   bodyParser = require('body-parser'),
   { EventEmitter } = require('events')
 var token = "",
