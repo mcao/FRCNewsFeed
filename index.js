@@ -63,7 +63,15 @@ news.on('reddit', (data) => {
 });
 
 news.on('yt', (data) => {
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, "\t") + "```")
+  var yt = new Discord.RichEmbed()
+    .setAuthor(`New Video on ${data.channel}`, null, data.url)
+    .setDescription(`[${data.name}](${data.url}) (${data.duration})`)
+    .setColor('#ff0000')
+    .setFooter(data.channel)
+    .setTimestamp(new Date(data.date))
+    .setImage(data.thumbnail)
+  
+    bot.channels.get('370684908462538752').send({embed : yt})
 });
 
 bot.on('ready', () => {
