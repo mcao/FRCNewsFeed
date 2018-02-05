@@ -23,9 +23,10 @@ class Server extends EventEmitter {
     var self = this;
 
     app.post('/api/:endpoint', function(req, res) {
+      console.log(req.headers);
       if (req.body.authorization)
         token = req.body.authorization
-      else if (req.headers["X-TBA-Checksum"])
+      else if (req.headers["X-TBA-Checksum"]) // frcnewsfeedhook
         token = req.headers["X-TBA-Checksum"]
       console.log(`Token ${token}`)
       self.auth(token).then(authorized => {
