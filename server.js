@@ -27,7 +27,7 @@ class Server extends EventEmitter {
         token = req.body.authorization
       else if (req.headers["x-tba-checksum"]) // frcnewsfeedhook
         token = req.headers["x-tba-checksum"]
-      console.log(`Token ${token}`)
+      console.log(`Token ${token} | Request ${req.params.endpoint}`)
       self.auth(token).then(authorized => {
         if (authorized) {
           self.emit(req.params.endpoint, req.body);
@@ -36,11 +36,6 @@ class Server extends EventEmitter {
           res.sendStatus(401);
         }
       })
-    })
-
-    app.post('/chiefdelphi', function (req, res) {
-      res.send('OK');
-      self.emit('chiefdelphi', req.body);
     })
 
     app.post('/frcqa', function (req, res) {
@@ -93,6 +88,8 @@ class Server extends EventEmitter {
     return new Promise(resolve => {
       if (token)
         resolve(true);
+      else
+        resolve(false);
     })
   }
 }
