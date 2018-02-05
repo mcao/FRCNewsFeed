@@ -15,6 +15,18 @@ class Server extends EventEmitter {
     app.use(bodyParser.urlencoded({
       extended: true
     }))
+    app.use(function (req, res, next) {
+      var data = '';
+      req.setEncoding('utf8');
+      req.on('data', function (chunk) {
+        data += chunk;
+      });
+
+      req.on('end', function () {
+        req.body = data;
+        next();
+      });
+    });
 
     app.listen(8080, () => {
       console.log('Server started at port 8080!')
@@ -25,13 +37,13 @@ class Server extends EventEmitter {
   listen() {
     var self = this;
 
-    app.post('/api/:endpoint', function(req, res) {
+    app.post('/api/:endpoint', function (req, res) {
       if (req.body.authorization) {
         token = req.body.authorization,
-        tba = false
+          tba = false
       } else if (req.headers["x-tba-checksum"]) {
         token = req.headers["x-tba-checksum"],
-        tba = true
+          tba = true
       }
       console.log(`Request ${req.params.endpoint}`)
       console.log(`Hash Recieved: ${token}`)
@@ -56,6 +68,7 @@ class Server extends EventEmitter {
         shasum.update(require('./config.json').secret)
         shasum.update(String(payload))
         console.log(`TBA: Calculated Hash is ${shasum.digest('hex')}`)
+        shasum = crypto.createHash('sha1');
       }
       resolve(true);
     })
