@@ -38,22 +38,7 @@ class Server extends EventEmitter {
       })
     })
 
-    app.post('/twitter', function (req, res) {
-      res.send('OK');
-      self.emit('twitter', req.body);
-    })
-
-    app.post('/instagram', function (req, res) {
-      res.send('OK');
-      self.emit('instagram', req.body);
-    })
-
-    app.post('/facebook', function (req, res) {
-      res.send('OK');
-      self.emit('facebook', req.body);
-    })
-
-    app.get('/', (req, res) => res.send('hello world'))
+    app.get('/', (req, res) => res.send('Coming Soon(tm)'))
 
     console.log('Listeners initialized!')
   }
