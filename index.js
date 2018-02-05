@@ -29,7 +29,17 @@ news.on('frcqa', (data) => {
 });
 
 news.on('twitch', (data) => {
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, "\t") + "```")
+  var twitche = new Discord.RichEmbed()
+    .setAuthor(`Twitch`, 'https://d1qb2nb5cznatu.cloudfront.net/startups/i/114142-19c0993bf69c468f1350fd422bfad6b2-medium_jpg.jpg', `http://twitch.tv${data.channelName}`)
+    .setDescription(`${data.channelName} just went live on Twitch!`)
+    .setColor(6570405)
+    .addField(`🎮 Game`, data.game, true)
+    .addField('👁 Viewers', data.viewers, true)
+    .setFooter(data.channelName)
+    .setTimestamp(new Date(data.startedAt))
+    .setImage(data.preview)
+  
+    bot.channels.get('370684908462538752').send({embed : twitche})
 });
 
 news.on('reddit', (data) => {
@@ -52,7 +62,7 @@ bot.on('ready', () => {
 
 bot.on('message', msg => {
   if (msg.content == '!invite') {
-    msg.reply('https://discordapp.com/api/oauth2/authorize?client_id=408392282178453505&permissions=67193857&scope=bot');
+    msg.reply('<https://discordapp.com/api/oauth2/authorize?client_id=408392282178453505&permissions=67193857&scope=bot>');
   }
 })
 
