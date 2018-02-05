@@ -38,17 +38,6 @@ class Server extends EventEmitter {
       })
     })
 
-    // Public
-    app.post('/api/reddit', function (req, res) {
-      res.send('OK');
-      self.emit('reddit', req.body);
-    })
-
-    app.post('/yt', function (req, res) {
-      res.send('OK');
-      self.emit('yt', req.body);
-    })
-
     app.post('/twitter', function (req, res) {
       res.send('OK');
       self.emit('twitter', req.body);
