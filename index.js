@@ -2,9 +2,7 @@ const Server = require('./server'),
   news = new Server(),
   Discord = require('discord.js'),
   bot = new Discord.Client(),
-  config = require('./config.json'),
-  fs = require('fs');
-var reddit = require('./data/reddit.json')
+  config = require('./config.json');
 
 news.on('chiefdelphi', (data) => {
   var cdEmbed = new Discord.RichEmbed()
@@ -17,14 +15,14 @@ news.on('chiefdelphi', (data) => {
 });
 
 news.on('tba', (data) => {
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, "\t") + "```")
+  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data) + "```")
 });
 
 news.on('frcblog', (data) => {
   var news = new Discord.RichEmbed()
     .setAuthor('New FRC Blog Post!', null, data.link)
     .setDescription(`[**${data.title}**](${data.link}) by ${data.author}`)
-    .setColor('#0000FF')
+    .setColor('#00A0E2')
     .setTimestamp(new Date(data.date))
   bot.channels.get('370684908462538752').send({ embed: news })
 });
@@ -33,7 +31,7 @@ news.on('frcqa', (data) => {
   var news = new Discord.RichEmbed()
     .setAuthor('New FRC Q&A Answer!', null, data.link)
     .setDescription(`[**${data.title}**](${data.link})`)
-    .setColor('#0000FF')
+    .setColor('#00A0E2')
     .setTimestamp(new Date(data.date))
   bot.channels.get('370684908462538752').send({ embed: news })
 });
@@ -48,8 +46,7 @@ news.on('twitch', (data) => {
     .setFooter(data.channelName)
     .setTimestamp(new Date(data.startedAt))
     .setImage(data.preview)
-  
-    bot.channels.get('370684908462538752').send({embed : twitche})
+  bot.channels.get('370684908462538752').send({embed : twitche})
 });
 
 news.on('reddit', (data) => {
@@ -57,7 +54,7 @@ news.on('reddit', (data) => {
     .setAuthor('New Post on /r/FRC!', null, 'https://reddit.com/r/FRC')
     .setDescription(`[**${data.title}**](${data.postURL}) submitted by ${data.author}`)
     .setColor('#cee3f8')
-  if (data.imageURL)
+  if (data.imageURL != "http://ifttt.com/images/no_image_card.png")
     news.setImage(data.imageURL)
   bot.channels.get('370684908462538752').send({ embed: news })
 });
@@ -70,12 +67,12 @@ news.on('yt', (data) => {
     .setFooter(data.channel)
     .setTimestamp(new Date(data.date))
     .setImage(data.thumbnail)
-  
-    bot.channels.get('370684908462538752').send({embed : yt})
+  bot.channels.get('370684908462538752').send({embed : yt})
 });
 
 bot.on('ready', () => {
   console.log(`${bot.user.username} is online and ready!`)
+  bot.user.setGame('with FRC news')
 })
 
 bot.on('message', msg => {
