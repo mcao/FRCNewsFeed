@@ -1,5 +1,7 @@
 var Server = require('./server'),
-  news = new Server();
+  news = new Server(),
+  Discord = require('discord.js'),
+  bot = new Discord.Client();
 
 news.on('chiefdelphi', (data) => {
   console.log(data);

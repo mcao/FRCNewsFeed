@@ -31,7 +31,7 @@ class Server extends EventEmitter {
       self.auth(token).then(authorized => {
         if (authorized) {
           self.emit(req.params.endpoint, req.body);
-          console.log(req.params.endpoint)
+          res.send('OK')
         } else {
           res.sendStatus(401);
         }
@@ -41,11 +41,6 @@ class Server extends EventEmitter {
     app.post('/chiefdelphi', function (req, res) {
       res.send('OK');
       self.emit('chiefdelphi', req.body);
-    })
-
-    app.post('/tba', function (req, res) {
-      res.send('OK');
-      self.emit('tba', req.body);
     })
 
     app.post('/frcqa', function (req, res) {
