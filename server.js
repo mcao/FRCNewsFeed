@@ -11,14 +11,19 @@ class Server extends EventEmitter {
   constructor() {
     super();
 
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(function (req, res, next) {
-      req.rawBody = '';
-      req.setEncoding('utf8');
-      req.on('data', function (chunk) { req.rawBody += chunk });
-      next();
-    });
+    //app.use(bodyParser.json());
+    //app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json({
+      verify: function (req, res, buf, encoding) {
+        req.rawBody = buf;
+      }
+    }));
+    app.use(bodyParser.urlencoded({
+      extended: false,
+      verify: function (req, res, buf, encoding) {
+        req.rawBody = buf;
+      }
+    }));
 
     app.listen(8080, () => {
       console.log('Server started at port 8080!')
