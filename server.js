@@ -51,11 +51,11 @@ class Server extends EventEmitter {
 
   auth(payload, token, isTba) {
     return new Promise(resolve => {
-      if (isTba) {
+      /* if (isTba) {
         shasum.update(require('./config.json').tbatoken)
           .update(JSON.stringify(payload))
         console.log(`TBA: Calculated Hash is ${shasum.digest('hex')}`)
-      }
+      } */
       resolve(true);
     })
   }
