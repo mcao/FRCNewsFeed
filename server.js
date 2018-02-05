@@ -49,7 +49,7 @@ class Server extends EventEmitter {
       console.log(`Hash Recieved: ${token}`)
       self.auth(req.body, token, tba).then(authorized => {
         if (authorized) {
-          self.emit(req.params.endpoint, req.body);
+          self.emit(req.params.endpoint, JSON.parse(req.body));
           res.send('OK')
         } else {
           res.sendStatus(401);
