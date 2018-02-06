@@ -167,13 +167,15 @@ bot.on('ready', () => {
       "channel": "370684908462538752"
     }
   ]
-
+  
   for (var i = 0; i < types.length; i++) {
     try {
       require('./data/' + types[i] + '.json')
     } catch (err) {
       console.log('Creating ' + './data/' + types[i] + '.json')
-      fs.writeFileSync('./data/' + types[i] + '.json', object)
+      fs.createWriteStream('./data/' + types[i] + '.json')
+        .write(object)
+        .end();
     }
   }
 })
