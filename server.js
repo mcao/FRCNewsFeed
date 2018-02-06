@@ -11,11 +11,13 @@ class Server extends EventEmitter {
   constructor() {
     super();
 
+    // IDK why this works for hashing but it does
     app.use(bodyParser.json({
       verify: function (req, res, buf, encoding) {
         req.rawBody = buf;
       }
     }));
+
     app.use(bodyParser.urlencoded({
       extended: false,
       verify: function (req, res, buf, encoding) {
