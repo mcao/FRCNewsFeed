@@ -168,8 +168,8 @@ bot.on('ready', () => {
     }
   ]
 
-  fs.mkdirSync('data');
-  
+  try { fs.mkdirSync('data'); } catch (err) { }
+
   for (var i = 0; i < types.length; i++) {
     try {
       require('./data/' + types[i] + '.json')
