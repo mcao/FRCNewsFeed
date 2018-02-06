@@ -153,10 +153,10 @@ bot.on('message', msg => {
       var notFoundCount = 0;
       var subs = [];
 
-      if (msg.content.indexOf(',') > -1) {
-        subs = msg.content.split(',');
-      } else if (msg.content !== null) {
-        subs[0] = msg.content;
+      if (args.indexOf(',') > -1) {
+        subs = args.split(',');
+      } else if (args !== null) {
+        subs[0] = args;
       } else {
         return msg.channel.send('Please specify something you would like to subscribe to!');
       }
@@ -174,7 +174,7 @@ bot.on('message', msg => {
               found = false;
               var sub = require(`./data/${subs[i]}.json`)
               for (var k = 0; k < sub.length; k++) {
-                if (sub[k].id == msg.channel.id) {
+                if (sub[k].channel == msg.channel.id) {
                   alreadySubscribedCount++;
                   alreadySubscribed += subs[i] + '\n'
                   found = true;
