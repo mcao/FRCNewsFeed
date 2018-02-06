@@ -168,7 +168,7 @@ bot.on('ready', () => {
     }
   ]
 
-  fs.mkdirSync('/data');
+  fs.mkdirSync('data');
   
   for (var i = 0; i < types.length; i++) {
     try {
