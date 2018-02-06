@@ -150,8 +150,8 @@ bot.on('message', msg => {
       var subscribedCount = 0;
       var alreadySubscribed = '';
       var alreadySubscribedCount = 0;
-      notFoundCount = 0;
-      subs = [];
+      var notFoundCount = 0;
+      var subs = [];
 
       if (msg.content.indexOf(',') > -1) {
         subs = msg.content.split(',');
@@ -163,22 +163,39 @@ bot.on('message', msg => {
 
       console.log(subs);
 
-      for (i = 0; i < subs.length; i++) {
-        found = false;
-        for (j = 0; j < types.length; j++) {
-          if (types[j].toLowerCase() === subs[i].trim().toLowerCase()) {
+      for (var i = 0; i < subs.length; i++) {
+        var found = false;
+        subs[i] = subs[i].trim();
+        for (var j = 0; j < types.length; j++) {
+          if (types[j].toLowerCase() === subs[i].toLowerCase()) {
             console.log('Found ' + subs[i]);
             found = true;
-            // subscribe hi
+            try {
+              found = false;
+              var sub = require(`./data/${subs[i]}.json`)
+              for (var k = 0; k < sub.length; k++) {
+                if (sub[k].id == msg.channel.id) {
+                  alreadySubscribedCount++;
+                  alreadySubscribed += subs[i] + '\n'
+                  found = true;
+                }
+              }
+              if (!found) {
+                subscribed += subs[i] + '\n'
+                subscribedCount++;
+              }
+            } catch (err) {
+              msg.channel.send('An error has occurred:\n' + err.stack)
+            }
           }
         }
         if (!found) {
-          console.log('Could not find ' + subs[i]);
+          console.log('Could not find ' + subs[i].trim());
           notFoundCount++;
         }
       }
 
-      subEmbed = new Discord.RichEmbed()
+      var subEmbed = new Discord.RichEmbed()
         .setFooter(bot.user.username)
         .setTimestamp()
         .setColor(msg.guild.me.displayColor);
@@ -186,7 +203,7 @@ bot.on('message', msg => {
         subEmbed.addField(`Successfully subscribed to ${subscribedCount} source(s)!`, subscribed);
       }
       if (alreadySubscribedCount > 0) {
-        subEmbed.addField(`You were already subscribed to ${alreadySubscribedCount} source(s)!`, alreadyHad);
+        subEmbed.addField(`You were already subscribed to ${alreadySubscribedCount} source(s)!`, alreadySubscribed);
       }
       if (notFoundCount > 0) {
         subEmbed.addField(`Couldn't find ${notFoundCount} source(s)!`, 'Try !help to get a list of valid sources!');
