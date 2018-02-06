@@ -356,8 +356,9 @@ bot.on('message', msg => {
       .setFooter(bot.user.username)
       .setTimestamp()
       .addField('!invite', 'Invite me to your server!')
-      .addField('!subscribe [type]', 'Set a certain type of news to feed into the channel.\nCurrently accepted types:' +
+      .addField('!subscribe [type | all]', 'Set a certain type of news to feed into the channel.\nCurrently accepted types:' +
       '\n- chiefdelphi\n- tba (in development)\n- frcblog\n- frcqa\n- twitch\n- yt\n- reddit')
+      .addField('!unsubscribe [type | all]', 'Unsubscribe from a certain type of news.')
       .addField('Need more help?', 'DM Michael | ASIANBOI#4150 with any questions!')
     msg.channel.send({ embed: help })
   }
