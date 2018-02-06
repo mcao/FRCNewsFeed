@@ -172,7 +172,8 @@ bot.on('message', msg => {
             found = true;
             try {
               found = false;
-              var sub = require(`./data/${subs[i]}.json`)
+              var subJson = fs.readWriteSync(`./data/${subs[i]}.json`),
+                sub = JSON.parse(subJson);
               for (var k = 0; k < sub.length; k++) {
                 if (sub[k].channel == msg.channel.id) {
                   alreadySubscribedCount++;
@@ -181,6 +182,8 @@ bot.on('message', msg => {
                 }
               }
               if (!found) {
+                sub.push({ "type": "discord", "channel": msg.channel.id })
+                fs.writeFileSync(`./data/${subs[i]}.json`, JSON.stringify(sub, null, 3));
                 subscribed += subs[i] + '\n'
                 subscribedCount++;
               }
