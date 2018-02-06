@@ -37,7 +37,6 @@ news.on('frcblog', (data) => {
     .setDescription(`[**${data.title}**](${data.link}) by ${data.author}`)
     .setColor('#00A0E2')
     .setTimestamp(new Date(data.date))
-  bot.channels.get('370684908462538752').send({ embed: news })
 
   try {
     var blogChannels = require('./data/frcblog.json');
@@ -154,6 +153,7 @@ bot.on('message', msg => {
       .addField('!subscribe [type]', 'Set a certain type of news to feed into the channel. Currently accepted types:' +
       '\n- chiefdelphi\n- tba (in development)\n- frcblog\n- frcqa\n- twitch\n- yt\n- reddit')
       .addField('Need more help?', 'DM Michael | ASIANBOI#4150 with any questions!')
+    msg.channel.send({ embed: help })
   }
 })
 
