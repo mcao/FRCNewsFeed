@@ -142,6 +142,7 @@ bot.on('message', msg => {
   if (msg.content == '!invite') {
     msg.reply('<https://discordapp.com/api/oauth2/authorize?client_id=408392282178453505&permissions=67193857&scope=bot>');
   } else if (msg.content.startsWith('!subscribe')) {
+    if (!msg.member.hasPermission('MANAGE_GUILD')) return msg.reply('sorry, but you mut have `Manage Server` to run this command!')
     var args = msg.content.split(' ').splice(1).join(' ');
     if (args.split(' ')[0].toLowerCase() == 'all') {
       var subscribed = '';
@@ -261,6 +262,7 @@ bot.on('message', msg => {
       msg.channel.send({ embed: subEmbed });
     }
   } else if (msg.content.startsWith('!unsubscribe')) {
+    if (!msg.member.hasPermission('MANAGE_GUILD')) return msg.reply('sorry, but you mut have `Manage Server` to run this command!')
     var args = msg.content.split(' ').splice(1).join(' ');
     if (args.split(' ')[0].toLowerCase() == 'all') {
       var subscribed = '';
