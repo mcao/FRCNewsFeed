@@ -63,9 +63,13 @@ class Server extends EventEmitter {
         shasum.update(require('./config.json').secret)
         shasum.update(payload)
         console.log(`TBA: Calculated Hash is ${shasum.digest('hex')}`)
-        shasum = crypto.createHash('sha1');
-        if (token == shasum) resolve(true);
-        else resolve(false);
+        if (token == shasum.digest('hex'))  {
+          shasum = crypto.createHash('sha1');
+          resolve(true);
+        } else  {
+          shasum = crypto.createHash('sha1');
+          resolve(false);
+        }
       } else if (token == require('./config.json').admintoken) {
         resolve(true);
       } else {
