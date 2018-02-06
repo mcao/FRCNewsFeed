@@ -144,7 +144,52 @@ bot.on('message', msg => {
   } else if (msg.content.startsWith('!subscribe')) {
     var args = msg.content.split(' ').splice(1).join(' ');
     if (args[0].toLowerCase() == 'all') {
+      var subscribed = '';
+      var subscribedCount = 0;
+      var alreadySubscribed = '';
+      var alreadySubscribedCount = 0;
+      var notFoundCount = 0;
 
+
+      for (var j = 0; j < types.length; j++) {
+        try {
+          var found2 = false;
+          var subJson = fs.readFileSync(`./data/${types[i]}.json`),
+            sub = JSON.parse(subJson);
+          for (var k = 0; k < sub.length; k++) {
+            if (sub[k].channel == msg.channel.id) {
+              alreadySubscribedCount++;
+              alreadySubscribed += types[i] + '\n'
+              found2 = true;
+            }
+          }
+          if (!found2) {
+            sub.push({ "type": "discord", "channel": msg.channel.id })
+            fs.writeFileSync(`./data/${types[i]}.json`, JSON.stringify(sub, null, 3));
+            delete require.cache[require.resolve(`./data/${types[i]}.json`)];
+            subscribed += types[i] + '\n'
+            subscribedCount++;
+          }
+        } catch (err) {
+          msg.channel.send('An error has occurred:\n' + err.stack)
+        }
+      }
+
+      var subEmbed = new Discord.RichEmbed()
+        .setFooter(bot.user.username)
+        .setTimestamp()
+        .setColor(msg.guild.me.displayColor);
+      if (subscribedCount > 0) {
+        subEmbed.addField(`Successfully subscribed to ${subscribedCount} source(s)!`, subscribed);
+      }
+      if (alreadySubscribedCount > 0) {
+        subEmbed.addField(`You were already subscribed to ${alreadySubscribedCount} source(s)!`, alreadySubscribed);
+      }
+      if (notFoundCount > 0) {
+        subEmbed.addField(`Couldn't find ${notFoundCount} source(s)!`, 'Try !help to get a list of valid sources!');
+      }
+
+      msg.channel.send({ embed: subEmbed });
     } else {
       var subscribed = '';
       var subscribedCount = 0;
