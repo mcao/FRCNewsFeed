@@ -260,6 +260,94 @@ bot.on('message', msg => {
 
       msg.channel.send({ embed: subEmbed });
     }
+  } else if (msg.content.startsWith('!unsubscribe')) {
+    var args = msg.content.split(' ').splice(1).join(' ');
+    if (args.split(' ')[0].toLowerCase() == 'all') {
+      var subscribed = '';
+      var subscribedCount = 0;
+
+      for (var i = 0; i < types.length; i++) {
+        try {
+          var found2 = false;
+          var subJson = fs.readFileSync(`./data/${types[i]}.json`),
+            sub = JSON.parse(subJson);
+          for (var k = 0; k < sub.length; k++) {
+            if (sub[k].channel == msg.channel.id) {
+              sub.splice(k, 1);
+              fs.writeFileSync(`./data/${types[i]}.json`, JSON.stringify(sub, null, 3));
+              delete require.cache[require.resolve(`./data/${types[i]}.json`)];
+              subscribed += types[i] + '\n'
+              subscribedCount++;
+            }
+          }
+        } catch (err) {
+          msg.channel.send('An error has occurred:\n' + err.stack)
+        }
+      }
+
+      var subEmbed = new Discord.RichEmbed()
+        .setFooter(bot.user.username)
+        .setTimestamp()
+        .setColor(msg.guild.me.displayColor);
+      if (subscribedCount > 0) {
+        subEmbed.addField(`Unsubscribed from ${subscribedCount} source(s)!`, subscribed);
+      }
+
+      msg.channel.send({ embed: subEmbed });
+    } else {
+      var subscribed = '';
+      var subscribedCount = 0;
+      var alreadySubscribed = '';
+      var alreadySubscribedCount = 0;
+      var notFoundCount = 0;
+      var subs = [];
+
+      if (args.indexOf(',') > -1) {
+        subs = args.split(',');
+      } else if (args !== null) {
+        subs[0] = args;
+      } else {
+        return msg.channel.send('Please specify something you would like to unsubscribe from!');
+      }
+
+      console.log(subs);
+
+      for (var i = 0; i < subs.length; i++) {
+        var found = false;
+        subs[i] = subs[i].trim();
+        for (var j = 0; j < types.length; j++) {
+          if (types[j].toLowerCase() === subs[i].toLowerCase()) {
+            console.log('Found ' + subs[i]);
+            found = true;
+            try {
+              var subJson = fs.readFileSync(`./data/${subs[i]}.json`),
+                sub = JSON.parse(subJson);
+              for (var k = 0; k < sub.length; k++) {
+                if (sub[k].channel == msg.channel.id) {
+                  sub.splice(k, 1);
+                  fs.writeFileSync(`./data/${subs[i]}.json`, JSON.stringify(sub, null, 3));
+                  delete require.cache[require.resolve(`./data/${subs[i]}.json`)];
+                  subscribed += subs[i] + '\n'
+                  subscribedCount++;
+                }
+              }
+            } catch (err) {
+              msg.channel.send('An error has occurred:\n' + err.stack)
+            }
+          }
+        }
+      }
+
+      var subEmbed = new Discord.RichEmbed()
+        .setFooter(bot.user.username)
+        .setTimestamp()
+        .setColor(msg.guild.me.displayColor);
+      if (subscribedCount > 0) {
+        subEmbed.addField(`Unsubscribed ${subscribedCount} source(s)!`, subscribed);
+      }
+
+      msg.channel.send({ embed: subEmbed });
+    }
   } else if (msg.content == '!help') {
     var help = new Discord.RichEmbed()
       .setAuthor(bot.user.username, bot.user.avatarURL)
