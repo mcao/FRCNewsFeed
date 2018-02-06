@@ -173,7 +173,7 @@ bot.on('ready', () => {
       require('./data/' + types[i] + '.json')
     } catch (err) {
       console.log('Creating ' + './data/' + types[i] + '.json')
-      fs.writeFile('./data/' + types[i] + '.json', object)
+      fs.writeFileSync('./data/' + types[i] + '.json', object)
     }
   }
 })
