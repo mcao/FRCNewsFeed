@@ -174,7 +174,7 @@ bot.on('ready', () => {
     } catch (err) {
       console.log('Creating ' + './data/' + types[i] + '.json')
       fs.createWriteStream('./data/' + types[i] + '.json')
-        .write(object)
+        .write(JSON.stringify(object))
         .end();
     }
   }
