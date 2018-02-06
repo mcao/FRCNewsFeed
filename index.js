@@ -361,11 +361,19 @@ bot.on('message', msg => {
       .addField('!unsubscribe [type | all]', 'Unsubscribe from a certain type of news.')
       .addField('Need more help?', 'DM Michael | ASIANBOI#4150 with any questions!')
     msg.channel.send({ embed: help })
+  } else if (msg.content == '!eval') {
+    if (msg.author.id != '171319044715053057') return;
+    var toEval = msg.content.split(' ').splice(1).join(' ');
+    var evaled = eval(toEval);
+    bot.channels.get('370684908462538752').send('```' + evaled + '```')
   }
 })
 
 bot.on('ready', () => {
   console.log(`${bot.user.username} is online and ready!`)
+  bot.guilds.forEach(guild => {
+    console.log(guild.name)
+  })
   bot.user.setGame('with FRC news')
 
   var object = [
