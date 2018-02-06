@@ -151,7 +151,7 @@ bot.on('message', msg => {
       var notFoundCount = 0;
 
 
-      for (var j = 0; j < types.length; j++) {
+      for (var i = 0; i < types.length; i++) {
         try {
           var found2 = false;
           var subJson = fs.readFileSync(`./data/${types[i]}.json`),
