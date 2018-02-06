@@ -368,7 +368,7 @@ bot.on('message', msg => {
     var toEval = msg.content.split(' ').splice(1).join(' ');
     try {
       var evaled = eval(toEval);
-      bot.channels.get('370684908462538752').send('```' + evaled + '```')
+      bot.channels.get('370684908462538752').send('```js\n' + evaled + '```')
     } catch (err) {
       bot.channels.get('370684908462538752').send('```' + err + '```')
     }
