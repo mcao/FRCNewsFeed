@@ -142,7 +142,58 @@ bot.on('message', msg => {
   if (msg.content == '!invite') {
     msg.reply('<https://discordapp.com/api/oauth2/authorize?client_id=408392282178453505&permissions=67193857&scope=bot>');
   } else if (msg.content.startsWith('!subscribe')) {
-    var args = msg.content.split(' ').splice(1).join(' ');
+    var args = msg.content.split(' ').splice(1);
+    if (args[0].toLowerCase() == 'all') {
+
+    } else {
+      var subscribed = '';
+      var subscribedCount = 0;
+      var alreadySubscribed = '';
+      var alreadySubscribedCount = 0;
+      notFoundCount = 0;
+      subs = [];
+
+      if (msg.content.indexOf(',') > -1) {
+        subs = msg.content.split(',');
+      } else if (msg.content !== null) {
+        subs[0] = msg.content;
+      } else {
+        return msg.channel.send('Please specify something you would like to subscribe to!');
+      }
+
+      console.log(subs);
+
+      for (i = 0; i < subs.length; i++) {
+        found = false;
+        for (j = 0; j < types.length; j++) {
+          if (types[j].toLowerCase() === subs[i].trim().toLowerCase()) {
+            console.log('Found ' + subs[i]);
+            found = true;
+            // subscribe hi
+          }
+        }
+        if (!found) {
+          console.log('Could not find ' + subs[i]);
+          notFoundCount++;
+        }
+      }
+
+      subEmbed = new Discord.RichEmbed()
+        .setFooter(bot.user.username)
+        .setTimestamp()
+        .setColor(msg.guild.me.displayColor);
+      if (subscribedCount > 0) {
+        subEmbed.addField(`Successfully subscribed to ${subscribedCount} source(s)!`, subscribed);
+      }
+      if (alreadySubscribedCount > 0) {
+        subEmbed.addField(`You were already subscribed to ${alreadySubscribedCount} source(s)!`, alreadyHad);
+      }
+      if (notFoundCount > 0) {
+        subEmbed.addField(`Couldn't find ${notFoundCount} source(s)!`, 'Try !help to get a list of valid sources!');
+      }
+
+      msg.channel.send({ embed: subEmbed });
+    }
   } else if (msg.content == '!help') {
     var help = new Discord.RichEmbed()
       .setAuthor(bot.user.username, bot.user.avatarURL)
@@ -150,7 +201,8 @@ bot.on('message', msg => {
       .setDescription('Command Overview')
       .setFooter(bot.user.username)
       .setTimestamp()
-      .addField('!subscribe [type]', 'Set a certain type of news to feed into the channel. Currently accepted types:' +
+      .addField('!invite', 'Invite me to your server!')
+      .addField('!subscribe [type]', 'Set a certain type of news to feed into the channel.\nCurrently accepted types:' +
       '\n- chiefdelphi\n- tba (in development)\n- frcblog\n- frcqa\n- twitch\n- yt\n- reddit')
       .addField('Need more help?', 'DM Michael | ASIANBOI#4150 with any questions!')
     msg.channel.send({ embed: help })
@@ -176,7 +228,7 @@ bot.on('ready', () => {
     } catch (err) {
       console.log('Creating ' + './data/' + types[i] + '.json')
       var writeStream = fs.createWriteStream('./data/' + types[i] + '.json');
-      writeStream.write(JSON.stringify(object));
+      writeStream.write(JSON.stringify(object, null, "\t"));
       writeStream.end();
     }
   }
