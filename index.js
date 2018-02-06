@@ -172,7 +172,7 @@ bot.on('message', msg => {
             found = true;
             try {
               found = false;
-              var subJson = fs.readWriteSync(`./data/${subs[i]}.json`),
+              var subJson = fs.readFileSync(`./data/${subs[i]}.json`),
                 sub = JSON.parse(subJson);
               for (var k = 0; k < sub.length; k++) {
                 if (sub[k].channel == msg.channel.id) {
