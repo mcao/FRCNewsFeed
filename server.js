@@ -60,14 +60,14 @@ class Server extends EventEmitter {
   auth(payload, token, isTba) {
     return new Promise(resolve => {
       if (isTba) {
+        shasum = crypto.createHash('sha1');
         shasum.update(require('./config.json').secret)
         shasum.update(payload)
-        console.log(`TBA: Calculated Hash is ${shasum.digest('hex')}`)
-        if (token == shasum.digest('hex'))  {
-          shasum = crypto.createHash('sha1');
+        var finalhash = shasum.digest('hex')
+        console.log(`TBA: Calculated Hash is ${finalhash}`)
+        if (token == finalhash)  {
           resolve(true);
         } else  {
-          shasum = crypto.createHash('sha1');
           resolve(false);
         }
       } else if (token == require('./config.json').admintoken) {
