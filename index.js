@@ -173,9 +173,9 @@ bot.on('ready', () => {
       require('./data/' + types[i] + '.json')
     } catch (err) {
       console.log('Creating ' + './data/' + types[i] + '.json')
-      fs.createWriteStream('./data/' + types[i] + '.json')
-        .write(JSON.stringify(object))
-        .end();
+      var writeStream = fs.createWriteStream('./data/' + types[i] + '.json');
+      writeStream.write(JSON.stringify(object));
+      writeStream.end();
     }
   }
 })
