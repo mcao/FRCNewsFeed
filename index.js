@@ -15,7 +15,7 @@ news.on('chiefdelphi', (data) => {
 });
 
 news.on('tba', (data) => {
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data) + "```")
+  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, '\t') + "```")
 });
 
 news.on('frcblog', (data) => {
