@@ -142,7 +142,7 @@ bot.on('message', msg => {
   if (msg.content == '!invite') {
     msg.reply('<https://discordapp.com/api/oauth2/authorize?client_id=408392282178453505&permissions=67193857&scope=bot>');
   } else if (msg.content.startsWith('!subscribe')) {
-    var args = msg.content.split(' ').splice(1);
+    var args = msg.content.split(' ').splice(1).join(' ');
     if (args[0].toLowerCase() == 'all') {
 
     } else {
