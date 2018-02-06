@@ -363,7 +363,7 @@ bot.on('message', msg => {
       .addField('!unsubscribe [type | all]', 'Unsubscribe from a certain type of news.')
       .addField('Need more help?', 'DM Michael | ASIANBOI#4150 with any questions!')
     msg.channel.send({ embed: help })
-  } else if (msg.content.startsWith('!eval') {
+  } else if (msg.content.startsWith('!eval')) {
     if (msg.author.id != '171319044715053057') return;
     var toEval = msg.content.split(' ').splice(1).join(' ');
     try {
