@@ -167,6 +167,8 @@ bot.on('ready', () => {
       "channel": "370684908462538752"
     }
   ]
+
+  fs.mkdirSync('/data');
   
   for (var i = 0; i < types.length; i++) {
     try {
