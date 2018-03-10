@@ -16,7 +16,7 @@ news.on('chiefdelphi', (data) => {
   try {
     var cdChannels = require('./data/chiefdelphi.json');
     for (var i = 0; i < cdChannels.length; i++) {
-      if (cdChannels[i].type == 'discord') {
+      if (cdChannels[i].type == 'discord' && bot.channels.get(cdChannels[i].channel)) {
         bot.channels.get(cdChannels[i].channel).send({ embed: cdEmbed })
       }
     }
@@ -28,6 +28,7 @@ news.on('chiefdelphi', (data) => {
 
 news.on('tba', (data) => {
   // Work on different types and making each specific
+  if (JSON.stringify(data, null, '\t').length < 2001))
   bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, '\t') + "```")
 });
 
@@ -41,7 +42,7 @@ news.on('frcblog', (data) => {
   try {
     var blogChannels = require('./data/frcblog.json');
     for (var i = 0; i < blogChannels.length; i++) {
-      if (blogChannels[i].type == 'discord') {
+      if (blogChannels[i].type == 'discord' && bot.channels.get(blogChannels[i].channel)) {
         bot.channels.get(blogChannels[i].channel).send({ embed: news })
       }
     }
@@ -61,7 +62,7 @@ news.on('frcqa', (data) => {
   try {
     var qaChannels = require('./data/frcqa.json');
     for (var i = 0; i < qaChannels.length; i++) {
-      if (qaChannels[i].type == 'discord') {
+      if (qaChannels[i].type == 'discord' && bot.channels.get(qaChannels[i].channel)) {
         bot.channels.get(qaChannels[i].channel).send({ embed: news })
       }
     }
@@ -85,7 +86,7 @@ news.on('twitch', (data) => {
   try {
     var twitchChannels = require('./data/twitch.json');
     for (var i = 0; i < twitchChannels.length; i++) {
-      if (twitchChannels[i].type == 'discord') {
+      if (twitchChannels[i].type == 'discord' && bot.channels.get(twitchChannels[i].channel)) {
         bot.channels.get(twitchChannels[i].channel).send({ embed: twitche })
       }
     }
@@ -105,7 +106,7 @@ news.on('reddit', (data) => {
   try {
     var redditChannels = require('./data/reddit.json');
     for (var i = 0; i < redditChannels.length; i++) {
-      if (redditChannels[i].type == 'discord') {
+      if (redditChannels[i].type == 'discord' && bot.channels.get(redditChannels[i].channel)) {
         bot.channels.get(redditChannels[i].channel).send({ embed: news })
       }
     }
@@ -127,7 +128,7 @@ news.on('yt', (data) => {
   try {
     var ytChannels = require('./data/yt.json');
     for (var i = 0; i < ytChannels.length; i++) {
-      if (ytChannels[i].type == 'discord') {
+      if (ytChannels[i].type == 'discord' && bot.channels.get(ytChannels[i].channel)) {
         bot.channels.get(ytChannels[i].channel).send({ embed: yt })
       }
     }
