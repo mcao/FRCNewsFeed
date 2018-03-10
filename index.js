@@ -28,8 +28,8 @@ news.on('chiefdelphi', (data) => {
 
 news.on('tba', (data) => {
   // Work on different types and making each specific
-  if (JSON.stringify(data, null, '\t').length < 2001))
-  bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, '\t') + "```")
+  if (JSON.stringify(data, null, '\t').length < 2001)
+    bot.channels.get('370684908462538752').send("```" + JSON.stringify(data, null, '\t') + "```")
 });
 
 news.on('frcblog', (data) => {
