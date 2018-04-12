@@ -74,7 +74,7 @@ news.on('frcqa', (data) => {
 
 news.on('twitch', (data) => {
   var twitche = new Discord.RichEmbed()
-    .setAuthor(`Twitch`, 'https://d1qb2nb5cznatu.cloudfront.net/startups/i/114142-19c0993bf69c468f1350fd422bfad6b2-medium_jpg.jpg', `http://twitch.tv${data.channelName}`)
+    .setAuthor(`Twitch`, 'https://d1qb2nb5cznatu.cloudfront.net/startups/i/114142-19c0993bf69c468f1350fd422bfad6b2-medium_jpg.jpg', `http://twitch.tv/${data.channelName}`)
     .setDescription(`${data.channelName} just went live on Twitch!`)
     .setColor(6570405)
     .addField(`🎮 Game`, data.game, true)
