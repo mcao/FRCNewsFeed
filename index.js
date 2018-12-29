@@ -510,7 +510,7 @@ bot.on("ready", () => {
   bot.guilds.forEach(guild => {
     console.log(guild.name);
   });
-  bot.user.setGame("with FRC news");
+  bot.user.setActivity("for FRC News", { type: "WATCHING" });
 
   var object = [
     {
