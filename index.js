@@ -67,6 +67,35 @@ news.on("jvn", data => {
   }
 });
 
+news.on("spectrum", data => {
+  var spectrumEmbed = new Discord.RichEmbed()
+    .setAuthor(
+      "New Post on Spectrum 3847's Blog!",
+      null,
+      "https://blog.spectrum3847.org/"
+    )
+    .setDescription(
+      `[**${data.title}**](${data.link}) posted by ${data.author}`
+    )
+    .setColor("#330080")
+    .setImage(data.image ? data.image : "")
+    .setTimestamp(new Date(data.date));
+  try {
+    var jvnChannels = require("./data/spectrum.json");
+    for (var i = 0; i < jvnChannels.length; i++) {
+      if (
+        jvnChannels[i].type == "discord" &&
+        bot.channels.get(jvnChannels[i].channel)
+      ) {
+        bot.channels.get(jvnChannels[i].channel).send({ embed: spectrumEmbed });
+      }
+    }
+    console.log("Sent Spectrum News to " + jvnChannels.length + " channels!");
+  } catch (err) {
+    console.log("Error with Spectrum News:\n" + err.stack);
+  }
+});
+
 news.on("tba", data => {
   // Work on different types and making each specific
   if (JSON.stringify(data, null, "\t").length < 2001)
