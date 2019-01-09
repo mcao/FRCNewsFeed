@@ -12,7 +12,8 @@ const Server = require("./server"),
     "twitch",
     "reddit",
     "yt",
-    "jvn"
+    "jvn",
+    "spectrum"
   ];
 
 news.on("chiefdelphi", data => {
